@@ -1,0 +1,362 @@
+name: Domain Checker & Updater
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+env:
+  # FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+  FILE_PATH: domain
+  TZ: Europe/Istanbul
+
+jobs:
+  Domain_Check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Python installation
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install needed packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests cloudscraper
+
+      - name: Check domains and update
+        run: |
+          python - <<'EOF'
+          import re
+          import os
+          from urllib.parse import urlparse
+          from cloudscraper import CloudScraper
+
+          scraper = CloudScraper()
+
+          # ============================================================
+          # CONFIGURATION
+          # ============================================================
+
+          file_path = '${{ env.FILE_PATH }}'
+
+          # Domain names starting with these prefixes will be skipped.
+          # will all be ignored and remain completely untouched.
+          EXCLUDED_PREFIXES = (
+              'Sinewix',
+              'RCtv',
+          )
+
+          # ============================================================
+          # FUNCTIONS
+          # ============================================================
+
+          def is_excluded(name):
+              """
+              Return True if the domain name starts with one of the
+              excluded prefixes.
+              """
+              return name.startswith(EXCLUDED_PREFIXES)
+
+
+          def parse_line(line):
+              """
+              Parse lines in the format:
+
+                  Name=https://example.com
+
+              Returns:
+                  (name, url)
+
+              Invalid lines return:
+                  (None, None)
+              """
+
+              match = re.match(
+                  r'([^:]+)=(https?://[^\s]+)',
+                  line.strip()
+              )
+
+              if match:
+                  name = match.group(1).strip()
+                  url = match.group(2).rstrip('/')
+
+                  return name, url
+
+              return None, None
+
+
+          def get_final_url(url, timeout=15):
+
+              try:
+                  url = url.strip().rstrip('/')
+
+                  response = scraper.get(
+                      url,
+                      allow_redirects=True,
+                      timeout=timeout,
+                      headers={
+                          'User-Agent':
+                              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                              'AppleWebKit/537.36 '
+                              '(KHTML, like Gecko) '
+                              'Chrome/140.0.0.0 Safari/537.36'
+                      }
+                  )
+
+                  # requests/cloudscraper follows the complete redirect
+                  # chain when allow_redirects=True.
+                  final_url = response.url.rstrip('/')
+
+                  # Show redirect chain for debugging.
+                  if response.history:
+                      print("  Redirect chain:")
+
+                      for redirect in response.history:
+                          print(
+                              f"    {redirect.status_code}: "
+                              f"{redirect.url}"
+                          )
+
+                      print(
+                          f"    {response.status_code}: "
+                          f"{response.url}"
+                      )
+                  else:
+                      print(
+                          f"  No redirect "
+                          f"(HTTP {response.status_code})"
+                      )
+
+                  # Extract only scheme + hostname.
+                  #
+                  # Example:
+                  # https://example.com/path/page
+                  #
+                  # becomes:
+                  # https://example.com
+                  parsed = urlparse(final_url)
+
+                  if not parsed.scheme or not parsed.netloc:
+                      print(
+                          f"  ✗ Invalid final URL: {final_url}"
+                      )
+                      return None
+
+                  clean_url = f"{parsed.scheme}://{parsed.netloc}"
+
+                  return clean_url
+
+              except Exception as e:
+                  print(
+                      f"  ✗ Request error ({url}): {str(e)}"
+                  )
+
+                  return None
+
+
+          # ============================================================
+          # READ DOMAIN FILE
+          # ============================================================
+
+          try:
+              with open(
+                  file_path,
+                  'r',
+                  encoding='utf-8'
+              ) as f:
+                  lines = f.read().splitlines()
+
+          except FileNotFoundError:
+              print(f"File not found: {file_path}")
+              exit(1)
+
+          except Exception as e:
+              print(f"File read error: {e}")
+              exit(1)
+
+
+          # Keep an untouched copy so we can determine whether
+          # anything actually changed.
+          original_lines = lines.copy()
+
+          changes_made = False
+
+          print("==============================================")
+          print(" Domain Checker & Updater")
+          print("==============================================")
+          print()
+          print(f"File: {file_path}")
+          print()
+
+          if EXCLUDED_PREFIXES:
+              print("Excluded prefixes:")
+              for prefix in EXCLUDED_PREFIXES:
+                  print(f"  - {prefix}")
+
+          print()
+          print("Starting domain checks...")
+          print()
+
+
+          # ============================================================
+          # CHECK EVERY DOMAIN
+          # ============================================================
+
+          for i, line in enumerate(lines):
+
+              stripped_line = line.strip()
+
+              # --------------------------------------------------------
+              # Empty lines
+              # --------------------------------------------------------
+
+              if not stripped_line:
+                  continue
+
+              # --------------------------------------------------------
+              # Comments
+              # --------------------------------------------------------
+
+              if stripped_line.startswith('#'):
+                  continue
+
+              # --------------------------------------------------------
+              # Parse domain
+              # --------------------------------------------------------
+
+              name, original_url = parse_line(line)
+
+              if not name or not original_url:
+                  print(
+                      f"Skipping invalid line {i + 1}: {line}"
+                  )
+                  continue
+
+              # --------------------------------------------------------
+              # Excluded prefix
+              # --------------------------------------------------------
+
+              if is_excluded(name):
+                  print(
+                      f"⏭️  Excluded by prefix: {name}"
+                  )
+                  print(
+                      f"    Keeping: {original_url}"
+                  )
+                  print()
+                  continue
+
+              # --------------------------------------------------------
+              # Check domain
+              # --------------------------------------------------------
+
+              print(f"Checking: {name}")
+              print(f"  Current URL: {original_url}")
+
+              final_url = get_final_url(original_url)
+
+              # --------------------------------------------------------
+              # Request failed
+              # --------------------------------------------------------
+
+              if not final_url:
+                  print(
+                      "  ✗ Could not determine final URL"
+                  )
+                  print(
+                      "  → Keeping current URL"
+                  )
+                  print()
+                  continue
+
+              # --------------------------------------------------------
+              # URL changed
+              # --------------------------------------------------------
+
+              if final_url != original_url:
+
+                  print(
+                      f"  ✓ Final URL: {final_url}"
+                  )
+
+                  new_line = f"{name}={final_url}"
+
+                  lines[i] = new_line
+
+                  changes_made = True
+
+                  print(
+                      f"  ✓ Updated: {new_line}"
+                  )
+
+              # --------------------------------------------------------
+              # URL unchanged
+              # --------------------------------------------------------
+
+              else:
+                  print(
+                      "  → No changes"
+                  )
+
+              print()
+
+
+          # ============================================================
+          # WRITE CHANGES
+          # ============================================================
+
+          if changes_made and lines != original_lines:
+
+              try:
+                  with open(
+                      file_path,
+                      'w',
+                      encoding='utf-8',
+                      newline='\n'
+                  ) as f:
+                      f.write('\n'.join(lines))
+                      f.write('\n')
+
+                  print("==============================================")
+                  print("✓ File updated successfully!")
+                  print("==============================================")
+
+              except Exception as e:
+                  print(
+                      f"✗ Failed to write file: {e}"
+                  )
+                  exit(1)
+
+          else:
+
+              print("==============================================")
+              print("→ No changes needed.")
+              print("==============================================")
+
+
+          EOF
+
+      - name: Save changes
+        run: |
+          git config user.name 'Domain Updater'
+          git config user.email 'bot@github-actions'
+
+          git add ${{ env.FILE_PATH }}
+
+          if git diff --staged --quiet; then
+            echo "No changes, skipping commit"
+            exit 0
+          fi
+
+          CURRENT_TIME=$(date +'%Y-%m-%d %H:%M')
+
+          git commit \
+            -m "♻️ Domain updated - $CURRENT_TIME"
+
+          git push
