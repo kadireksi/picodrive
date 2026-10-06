@@ -110,6 +110,7 @@ jobs:
           changes_made = False
           checked = 0
           skipped = 0
+          updated = 0
 
           print("==============================================")
           print(" Domain Checker & Updater (JSON)")
@@ -165,6 +166,7 @@ jobs:
                   print(f"  ✓ Final URL: {final_url}")
                   entry['baseUrl'] = final_url
                   changes_made = True
+                  updated += 1
                   print(f"  ✓ Updated: {name} -> {final_url}")
               else:
                   print("  → No changes")
@@ -195,8 +197,8 @@ jobs:
               print("==============================================")
 
           print()
-          print(f"Summary: checked={checked}, skipped={skipped}, "
-                f"total={len(data)}")
+          print(f"Summary: checked={checked}, updated={updated}, "
+                f"skipped={skipped}, total={len(data)}")
 
           EOF
 
