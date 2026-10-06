@@ -1,0 +1,346 @@
+[
+  {
+    "id": "trt1",
+    "name": "TRT1",
+    "baseUrl": "https://www.trt1.com.tr",
+    "networkId": 869,
+    "types": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "atv",
+    "name": "ATV",
+    "baseUrl": "https://www.atv.com.tr",
+    "networkId": 36,
+    "types": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "kanald",
+    "name": "KanalD",
+    "baseUrl": "https://www.kanald.com.tr",
+    "networkId": 439,
+    "types": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "nowtv",
+    "name": "NowTV",
+    "baseUrl": "https://www.nowtv.com.tr",
+    "networkId": 303,
+    "types": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "showtv",
+    "name": "ShowTV",
+    "baseUrl": "https://www.showtv.com.tr",
+    "networkId": 750,
+    "types": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "startv",
+    "name": "StarTV",
+    "baseUrl": "https://www.startv.com.tr",
+    "networkId": 778,
+    "types": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "puhutv",
+    "name": "PuhuTV",
+    "baseUrl": "https://puhutv.com",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "general",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "ddizi",
+    "name": "Ddizi",
+    "baseUrl": "https://www.ddizi.im",
+    "types": [
+      "TvSeries"
+    ],
+    "group": "general",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "dizifilm",
+    "name": "DiziFilm",
+    "baseUrl": "https://dizifilmizle.to",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "dizilife",
+    "name": "DiziLife",
+    "baseUrl": "https://dizi76.life",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "dizimom",
+    "name": "DiziMom",
+    "baseUrl": "https://dizimom.wiki",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "dizipal",
+    "name": "DiziPal",
+    "baseUrl": "https://dizipalorjinal13.com",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "dizipalx",
+    "name": "DiziPalX",
+    "baseUrl": "https://dizipal1587.com",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "dizilla",
+    "name": "Dizilla",
+    "baseUrl": "https://dizilla.now",
+    "types": [
+      "TvSeries"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "diziyou",
+    "name": "DiziYou",
+    "baseUrl": "https://www.diziyou.one",
+    "types": [
+      "TvSeries"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "filmekseni",
+    "name": "FilmEkseni",
+    "baseUrl": "https://filmekseni.vip",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "hdfilmcehennemi",
+    "name": "HDFilmCehennemi",
+    "baseUrl": "https://hdfilmcehennemi.nl",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "rctv",
+    "name": "RCtv",
+    "baseUrl": "https://a.prectv70.lol",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "sinewix",
+    "name": "Sinewix",
+    "baseUrl": "https://ydfvfdizipanel.ru",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "kstream",
+    "name": "Kstream",
+    "baseUrl": "https://ha.vixolity.com",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "jetfilmizle",
+    "name": "JetFilmizle",
+    "baseUrl": "https://jetfilmizle.now",
+    "types": [
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "streamimdb",
+    "name": "StreamIMDB",
+    "baseUrl": "https://streamimdb.ru",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
+  {
+    "id": "sinefy",
+    "name": "Sinefy",
+    "baseUrl": "https://sinefy3.com",
+    "types": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": false,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "webteizle",
+    "name": "WebteIzle",
+    "baseUrl": "https://webteizle.info",
+    "types": [
+      "Movie"
+    ],
+    "group": "movie",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "cizgivedizi",
+    "name": "CizgiVedizi",
+    "baseUrl": "https://cizgivedizi.net",
+    "types": [
+      "Movie",
+      "TvSeries"
+    ],
+    "group": "tv",
+    "active": false,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": true
+  }
+]
