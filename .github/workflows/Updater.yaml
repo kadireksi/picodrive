@@ -6,9 +6,8 @@ on:
   workflow_dispatch:
 
 env:
-  # FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-  FILE_PATH: domain
+  FILE_PATH: domain.json
   TZ: Europe/Istanbul
 
 jobs:
@@ -32,8 +31,7 @@ jobs:
       - name: Check domains and update
         run: |
           python - <<'EOF'
-          import re
-          import os
+          import json
           from urllib.parse import urlparse
           from cloudscraper import CloudScraper
 
@@ -45,54 +43,12 @@ jobs:
 
           file_path = '${{ env.FILE_PATH }}'
 
-          # Domain names starting with these prefixes will be skipped.
-          # will all be ignored and remain completely untouched.
-          EXCLUDED_PREFIXES = (
-              'Sinewix',
-              'RCtv',
-          )
-
           # ============================================================
           # FUNCTIONS
           # ============================================================
 
-          def is_excluded(name):
-              """
-              Return True if the domain name starts with one of the
-              excluded prefixes.
-              """
-              return name.startswith(EXCLUDED_PREFIXES)
-
-
-          def parse_line(line):
-              """
-              Parse lines in the format:
-
-                  Name=https://example.com
-
-              Returns:
-                  (name, url)
-
-              Invalid lines return:
-                  (None, None)
-              """
-
-              match = re.match(
-                  r'([^:]+)=(https?://[^\s]+)',
-                  line.strip()
-              )
-
-              if match:
-                  name = match.group(1).strip()
-                  url = match.group(2).rstrip('/')
-
-                  return name, url
-
-              return None, None
-
-
           def get_final_url(url, timeout=15):
-
+              """Follow redirects and return scheme://netloc only."""
               try:
                   url = url.strip().rstrip('/')
 
@@ -109,236 +65,138 @@ jobs:
                       }
                   )
 
-                  # requests/cloudscraper follows the complete redirect
-                  # chain when allow_redirects=True.
                   final_url = response.url.rstrip('/')
 
-                  # Show redirect chain for debugging.
                   if response.history:
                       print("  Redirect chain:")
-
                       for redirect in response.history:
-                          print(
-                              f"    {redirect.status_code}: "
-                              f"{redirect.url}"
-                          )
-
-                      print(
-                          f"    {response.status_code}: "
-                          f"{response.url}"
-                      )
+                          print(f"    {redirect.status_code}: {redirect.url}")
+                      print(f"    {response.status_code}: {response.url}")
                   else:
-                      print(
-                          f"  No redirect "
-                          f"(HTTP {response.status_code})"
-                      )
+                      print(f"  No redirect (HTTP {response.status_code})")
 
-                  # Extract only scheme + hostname.
-                  #
-                  # Example:
-                  # https://example.com/path/page
-                  #
-                  # becomes:
-                  # https://example.com
                   parsed = urlparse(final_url)
 
                   if not parsed.scheme or not parsed.netloc:
-                      print(
-                          f"  ✗ Invalid final URL: {final_url}"
-                      )
+                      print(f"  ✗ Invalid final URL: {final_url}")
                       return None
 
-                  clean_url = f"{parsed.scheme}://{parsed.netloc}"
-
-                  return clean_url
+                  return f"{parsed.scheme}://{parsed.netloc}"
 
               except Exception as e:
-                  print(
-                      f"  ✗ Request error ({url}): {str(e)}"
-                  )
-
+                  print(f"  ✗ Request error ({url}): {str(e)}")
                   return None
 
 
           # ============================================================
-          # READ DOMAIN FILE
+          # READ DOMAIN JSON FILE
           # ============================================================
 
           try:
-              with open(
-                  file_path,
-                  'r',
-                  encoding='utf-8'
-              ) as f:
-                  lines = f.read().splitlines()
-
+              with open(file_path, 'r', encoding='utf-8') as f:
+                  data = json.load(f)
           except FileNotFoundError:
               print(f"File not found: {file_path}")
               exit(1)
-
+          except json.JSONDecodeError as e:
+              print(f"Invalid JSON: {e}")
+              exit(1)
           except Exception as e:
               print(f"File read error: {e}")
               exit(1)
 
-
-          # Keep an untouched copy so we can determine whether
-          # anything actually changed.
-          original_lines = lines.copy()
+          original_data = json.dumps(data, indent=2, ensure_ascii=False)
 
           changes_made = False
+          checked = 0
+          skipped = 0
 
           print("==============================================")
-          print(" Domain Checker & Updater")
+          print(" Domain Checker & Updater (JSON)")
           print("==============================================")
           print()
           print(f"File: {file_path}")
+          print(f"Total entries: {len(data)}")
           print()
-
-          if EXCLUDED_PREFIXES:
-              print("Excluded prefixes:")
-              for prefix in EXCLUDED_PREFIXES:
-                  print(f"  - {prefix}")
-
-          print()
-          print("Starting domain checks...")
-          print()
-
 
           # ============================================================
           # CHECK EVERY DOMAIN
           # ============================================================
 
-          for i, line in enumerate(lines):
-
-              stripped_line = line.strip()
+          for entry in data:
+              name = entry.get('name', '')
+              original_url = entry.get('baseUrl', '').rstrip('/')
+              update_check = entry.get('updateCheck', False)
 
               # --------------------------------------------------------
-              # Empty lines
+              # updateCheck disabled → skip (this is the global opt-out)
               # --------------------------------------------------------
-
-              if not stripped_line:
+              if not update_check:
+                  skipped += 1
+                  print(f"⏭️  updateCheck=false: {name}")
+                  print(f"    Keeping: {original_url}")
+                  print()
                   continue
 
               # --------------------------------------------------------
-              # Comments
+              # Missing URL
               # --------------------------------------------------------
-
-              if stripped_line.startswith('#'):
-                  continue
-
-              # --------------------------------------------------------
-              # Parse domain
-              # --------------------------------------------------------
-
-              name, original_url = parse_line(line)
-
-              if not name or not original_url:
-                  print(
-                      f"Skipping invalid line {i + 1}: {line}"
-                  )
-                  continue
-
-              # --------------------------------------------------------
-              # Excluded prefix
-              # --------------------------------------------------------
-
-              if is_excluded(name):
-                  print(
-                      f"⏭️  Excluded by prefix: {name}"
-                  )
-                  print(
-                      f"    Keeping: {original_url}"
-                  )
+              if not original_url:
+                  print(f"⚠️  No baseUrl for: {name}")
                   print()
                   continue
 
               # --------------------------------------------------------
               # Check domain
               # --------------------------------------------------------
-
+              checked += 1
               print(f"Checking: {name}")
               print(f"  Current URL: {original_url}")
 
               final_url = get_final_url(original_url)
 
-              # --------------------------------------------------------
-              # Request failed
-              # --------------------------------------------------------
-
               if not final_url:
-                  print(
-                      "  ✗ Could not determine final URL"
-                  )
-                  print(
-                      "  → Keeping current URL"
-                  )
+                  print("  ✗ Could not determine final URL")
+                  print("  → Keeping current URL")
                   print()
                   continue
 
-              # --------------------------------------------------------
-              # URL changed
-              # --------------------------------------------------------
-
               if final_url != original_url:
-
-                  print(
-                      f"  ✓ Final URL: {final_url}"
-                  )
-
-                  new_line = f"{name}={final_url}"
-
-                  lines[i] = new_line
-
+                  print(f"  ✓ Final URL: {final_url}")
+                  entry['baseUrl'] = final_url
                   changes_made = True
-
-                  print(
-                      f"  ✓ Updated: {new_line}"
-                  )
-
-              # --------------------------------------------------------
-              # URL unchanged
-              # --------------------------------------------------------
-
+                  print(f"  ✓ Updated: {name} -> {final_url}")
               else:
-                  print(
-                      "  → No changes"
-                  )
+                  print("  → No changes")
 
               print()
-
 
           # ============================================================
           # WRITE CHANGES
           # ============================================================
 
-          if changes_made and lines != original_lines:
+          new_data = json.dumps(data, indent=2, ensure_ascii=False)
 
+          if changes_made and new_data != original_data:
               try:
-                  with open(
-                      file_path,
-                      'w',
-                      encoding='utf-8',
-                      newline='\n'
-                  ) as f:
-                      f.write('\n'.join(lines))
+                  with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+                      f.write(new_data)
                       f.write('\n')
 
                   print("==============================================")
                   print("✓ File updated successfully!")
                   print("==============================================")
-
               except Exception as e:
-                  print(
-                      f"✗ Failed to write file: {e}"
-                  )
+                  print(f"✗ Failed to write file: {e}")
                   exit(1)
-
           else:
-
               print("==============================================")
               print("→ No changes needed.")
               print("==============================================")
 
+          print()
+          print(f"Summary: checked={checked}, skipped={skipped}, "
+                f"total={len(data)}")
 
           EOF
 
