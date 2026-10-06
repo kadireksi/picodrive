@@ -100,7 +100,7 @@
   {
     "id": "ddizi",
     "name": "Ddizi",
-    "baseUrl": "https://www.ddizi.im",
+    "baseUrl": "https://www.ddizi.tel",
     "types": [
       "TvSeries"
     ],
@@ -141,7 +141,7 @@
   {
     "id": "dizimom",
     "name": "DiziMom",
-    "baseUrl": "https://dizimom.wiki",
+    "baseUrl": "https://www.dizimom.wiki",
     "types": [
       "TvSeries",
       "Movie"
