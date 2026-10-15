@@ -55,7 +55,7 @@
     "isExtractorApi": false,
     "updateCheck": false
   },
-    {
+  {
     "id": "foxtv",
     "name": "NowTV",
     "baseUrl": "https://www.nowtv.com.tr",
@@ -141,7 +141,7 @@
   {
     "id": "dizilife",
     "name": "DiziLife",
-    "baseUrl": "https://dizi78.life",
+    "baseUrl": "https://dizi79.life",
     "tvType": [
       "TvSeries",
       "Movie"
