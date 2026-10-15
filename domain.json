@@ -4,7 +4,7 @@
     "name": "TRT1",
     "baseUrl": "https://www.trt1.com.tr",
     "networkId": 869,
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "network",
@@ -18,7 +18,7 @@
     "name": "ATV",
     "baseUrl": "https://www.atv.com.tr",
     "networkId": 36,
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "network",
@@ -32,7 +32,7 @@
     "name": "KanalD",
     "baseUrl": "https://www.kanald.com.tr",
     "networkId": 439,
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "network",
@@ -45,8 +45,8 @@
     "id": "nowtv",
     "name": "NowTV",
     "baseUrl": "https://www.nowtv.com.tr",
-    "networkId": 303,
-    "types": [
+    "networkId": 7380,
+    "TvType": [
       "TvSeries"
     ],
     "group": "network",
@@ -60,7 +60,7 @@
     "name": "ShowTV",
     "baseUrl": "https://www.showtv.com.tr",
     "networkId": 750,
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "network",
@@ -74,7 +74,7 @@
     "name": "StarTV",
     "baseUrl": "https://www.startv.com.tr",
     "networkId": 778,
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "network",
@@ -87,11 +87,11 @@
     "id": "puhutv",
     "name": "PuhuTV",
     "baseUrl": "https://puhutv.com",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
-    "group": "general",
+    "group": "network",
     "active": true,
     "hasSubtitleCallback": false,
     "isExtractorApi": false,
@@ -101,10 +101,10 @@
     "id": "ddizi",
     "name": "Ddizi",
     "baseUrl": "https://www.ddizi.tel",
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
-    "group": "general",
+    "group": "network",
     "active": true,
     "hasSubtitleCallback": false,
     "isExtractorApi": false,
@@ -114,7 +114,7 @@
     "id": "dizifilm",
     "name": "DiziFilm",
     "baseUrl": "https://dizifilmizle.to",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -128,7 +128,7 @@
     "id": "dizilife",
     "name": "DiziLife",
     "baseUrl": "https://dizi78.life",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -139,10 +139,10 @@
     "updateCheck": true
   },
   {
-    "id": "dizimom",
-    "name": "DiziMom",
+    "id": "dizidad",
+    "name": "DiziDad",
     "baseUrl": "https://www.dizidad.com",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -156,7 +156,7 @@
     "id": "dizipal",
     "name": "DiziPal",
     "baseUrl": "https://dizipalorjinal15.com",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -170,7 +170,7 @@
     "id": "dizipalx",
     "name": "DiziPalX",
     "baseUrl": "https://dizipal1590.com",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -184,7 +184,7 @@
     "id": "dizilla",
     "name": "Dizilla",
     "baseUrl": "https://dizilla.now",
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "tv",
@@ -197,7 +197,7 @@
     "id": "diziyou",
     "name": "DiziYou",
     "baseUrl": "https://www.diziyou.one",
-    "types": [
+    "TvType": [
       "TvSeries"
     ],
     "group": "tv",
@@ -210,7 +210,21 @@
     "id": "filmekseni",
     "name": "FilmEkseni",
     "baseUrl": "https://filmekseni.vip",
-    "types": [
+    "TvType": [
+      "TvSeries",
+      "Movie"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": true,
+    "isExtractorApi": false,
+    "updateCheck": true
+  },
+  {
+    "id": "hdfc",
+    "name": "HDFC",
+    "baseUrl": "https://www.hdfilmcehennemi.nl",
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -223,13 +237,13 @@
   {
     "id": "hdfilmcehennemi",
     "name": "HDFilmCehennemi",
-    "baseUrl": "https://hdfilmcehennemi.nl",
-    "types": [
+    "baseUrl": "https://www.hdfilmcehennemi.nl",
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
     "group": "tv",
-    "active": true,
+    "active": false,
     "hasSubtitleCallback": true,
     "isExtractorApi": false,
     "updateCheck": true
@@ -238,7 +252,7 @@
     "id": "rctv",
     "name": "RCtv",
     "baseUrl": "https://a.prectv70.lol",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -252,7 +266,7 @@
     "id": "sinewix",
     "name": "Sinewix",
     "baseUrl": "https://ydfvfdizipanel.ru",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -266,7 +280,7 @@
     "id": "kstream",
     "name": "Kstream",
     "baseUrl": "https://ha.vixolity.com",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -280,7 +294,7 @@
     "id": "jetfilmizle",
     "name": "JetFilmizle",
     "baseUrl": "https://jetfilmizle.now",
-    "types": [
+    "TvType": [
       "Movie"
     ],
     "group": "tv",
@@ -293,7 +307,7 @@
     "id": "streamimdb",
     "name": "StreamIMDB",
     "baseUrl": "https://streamimdb.ru",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -307,7 +321,7 @@
     "id": "sinefy",
     "name": "Sinefy",
     "baseUrl": "https://sinefy3.com",
-    "types": [
+    "TvType": [
       "TvSeries",
       "Movie"
     ],
@@ -321,10 +335,10 @@
     "id": "webteizle",
     "name": "WebteIzle",
     "baseUrl": "https://webteizle.info",
-    "types": [
+    "TvType": [
       "Movie"
     ],
-    "group": "movie",
+    "group": "tv",
     "active": true,
     "hasSubtitleCallback": true,
     "isExtractorApi": false,
@@ -334,13 +348,14 @@
     "id": "cizgivedizi",
     "name": "CizgiVedizi",
     "baseUrl": "https://cizgivedizi.net",
-    "types": [
+    "TvType": [
       "Movie",
       "TvSeries"
     ],
     "group": "tv",
     "active": false,
     "hasSubtitleCallback": true,
-    "isExtractorApi": true
+    "isExtractorApi": false,
+    "updateCheck": true
   }
 ]
