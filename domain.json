@@ -55,6 +55,20 @@
     "isExtractorApi": false,
     "updateCheck": false
   },
+    {
+    "id": "foxtv",
+    "name": "NowTV",
+    "baseUrl": "https://www.nowtv.com.tr",
+    "networkId": 303,
+    "tvType": [
+      "TvSeries"
+    ],
+    "group": "network",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": false
+  },
   {
     "id": "showtv",
     "name": "ShowTV",
