@@ -285,7 +285,7 @@
       "Movie"
     ],
     "group": "tv",
-    "active": true,
+    "active": false,
     "hasSubtitleCallback": true,
     "isExtractorApi": false,
     "updateCheck": false
@@ -343,7 +343,7 @@
     "active": false,
     "hasSubtitleCallback": false,
     "isExtractorApi": false,
-    "updateCheck": true
+    "updateCheck": false
   },
   {
     "id": "webteizle",
