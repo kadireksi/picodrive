@@ -371,5 +371,18 @@
     "hasSubtitleCallback": true,
     "isExtractorApi": false,
     "updateCheck": true
-  }
+  },
+  {
+    "id": "animecix",
+    "name": "Animecix",
+    "baseUrl": "https://animecix.tv",
+    "tvType": [
+      "Anime"
+    ],
+    "group": "tv",
+    "active": true,
+    "hasSubtitleCallback": false,
+    "isExtractorApi": false,
+    "updateCheck": true
+}
 ]
