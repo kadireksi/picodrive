@@ -384,5 +384,18 @@
     "hasSubtitleCallback": false,
     "isExtractorApi": false,
     "updateCheck": true
+},
+{
+  "id": "animom",
+  "name": "AniMOM",
+  "baseUrl": "https://animom.org",
+  "tvType": [
+    "Anime"
+  ],
+  "group": "tv",
+  "active": true,
+  "hasSubtitleCallback": false,
+  "isExtractorApi": false,
+  "updateCheck": true
 }
 ]
