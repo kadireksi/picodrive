@@ -382,7 +382,7 @@
       "TvSeries"
     ],
     "group": "tv",
-    "active": true,
+    "active": false,
     "hasSubtitleCallback": false,
     "isExtractorApi": false,
     "updateCheck": true
@@ -397,7 +397,7 @@
       "TvSeries"
     ],
     "group": "tv",
-    "active": true,
+    "active": false,
     "hasSubtitleCallback": false,
     "isExtractorApi": false,
     "updateCheck": true
