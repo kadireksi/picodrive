@@ -141,7 +141,7 @@
   {
     "id": "dizilife",
     "name": "DiziLife",
-    "baseUrl": "https://dizi81.life",
+    "baseUrl": "https://dizi82.life",
     "tvType": [
       "TvSeries",
       "Movie"
@@ -169,7 +169,7 @@
   {
     "id": "dizipal",
     "name": "DiziPal",
-    "baseUrl": "https://dizipalorjinal16.com",
+    "baseUrl": "https://dizipalorjinal17.com",
     "tvType": [
       "TvSeries",
       "Movie"
@@ -183,7 +183,7 @@
   {
     "id": "dizipalx",
     "name": "DiziPalX",
-    "baseUrl": "https://dizipal1591.com",
+    "baseUrl": "https://dizipal1592.com",
     "tvType": [
       "TvSeries",
       "Movie"
@@ -307,7 +307,7 @@
   {
     "id": "jetfilmizle",
     "name": "JetFilmizle",
-    "baseUrl": "https://jetfilmizle.now",
+    "baseUrl": "https://jetfilmizle.app",
     "tvType": [
       "Movie"
     ],
